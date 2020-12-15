@@ -1,163 +1,101 @@
 <template>
-  <div class="container">
-    
+  <div class="patrol_area">
+    <div id="allmap" style="height:600px;margin-top:5px;"></div>
   </div>
 </template>
 
 <script>
+import { mapGetters } from "vuex";
 export default {
-  name: "Map",
+  name: "Dashboard",
   data() {
     return {
-      h3tit: "人员轨迹",
-      timer: null, //单人定时
-      manyTime: null, //多人实时
-      markerSpeed: 200,
-      speedCount: 1,
-      pName: "---",
-      lineArr: [
-        [116.478935, 39.997761],
-        [116.478939, 39.997825],
-        [116.478912, 39.998549],
-        [116.478912, 39.998549],
-        [116.478998, 39.998555],
-        [116.478998, 39.998555],
-        [116.479282, 39.99856],
-        [116.479658, 39.998528],
+      path: [
+        {
+          lng: 121.814224,
+          lat: 31.156484,
+        },
+        {
+          lng: 121.808547,
+          lat: 31.165754,
+        },
+        {
+          lng: 121.796186,
+          lat: 31.184848,
+        },
+        {
+          lng: 121.788353,
+          lat: 31.192015,
+        },
+        {
+          lng: 121.771752,
+          lat: 31.194734,
+        },
+        {
+          lng: 121.74969,
+          lat: 31.189791,
+        },
+        {
+          lng: 121.754217,
+          lat: 31.179658,
+        },
+        {
+          lng: 121.757523,
+          lat: 31.167794,
+        },
       ],
-      marker: {},
-      map: {},
-      markers: [], //点的集合  用来清除点标记
-      firstArr: [120.11296645567579, 30.290059843858472],
-      polyline: {},
-      passedPolyline: {},
+      maps: "",
+      pls: "",
     };
   },
+  mounted() {
+    this.pathStart();
+  },
+  computed: {
+    ...mapGetters(["name"]),
+  },
   methods: {
-    initMap() {
-      this.map = new AMap.Map("container", {
-        resizeEnable: true,
-        center: this.firstArr,
-        zoom: 20,
-      });
+    // 创建地图实例,并给设置移动路径
+    pathStart() {
+      // GL版命名空间为BMapGL
+      // 按住鼠标右键，修改倾斜角和角度
+      var map = new BMapGL.Map("allmap"); // 创建Map实例
+      map.centerAndZoom(new BMapGL.Point(121.814224, 31.156484), 17); // 初始化地图,设置中心点坐标和地图级别
+      map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
 
-      this.marker = new AMap.Marker({
-        map: this.map,
-        position: this.firstArr,
-        icon: pic,
-        // offset: new AMap.Pixel(-25, 0),
-        // autoRotation: true,
-        // angle: 0
-      });
-      //覆盖物的圈圈
-      this.circle = new AMap.Circle({
-        center: this.firstArr,
-        map: this.map,
-        radius: 100,
-        fillColor: "blue",
-        strokeWeight: 1,
-        strokeColor: "white",
-        fillOpacity: 0.1,
-      });
-      this.circle1 = new AMap.Circle({
-        center: this.firstArr,
-        map: this.map,
-        radius: 150,
-        fillColor: "blue",
-        strokeWeight: 1,
-        strokeColor: "white",
-        fillOpacity: 0.05,
-      });
-      // 绘制轨迹
-      this.polyline = new AMap.Polyline({
-        map: this.map,
-        path: this.lineArr,
-        showDir: true,
-        strokeColor: "#28F", //线颜色
-        // strokeOpacity: 1,     //线透明度
-        strokeWeight: 6, //线宽
-        // strokeStyle: "solid"  //线样式
-      });
-      // 设置鼠标划过点标记显示的文字提示
-      // this.marker.setTitle("我是marker的title");
-
-      // 设置label标签
-      // label默认蓝框白底左上角显示，样式className为：amap-marker-label
-      this.marker.setLabel({
-        offset: new AMap.Pixel(50, 0), //设置文本标注偏移量
-        content: `<div class='info'>${this.pName}</div>`, //设置文本标注内容
-        direction: "top", //设置文本标注方位
-      });
-      var passedPolyline = new AMap.Polyline({
-        map: this.map,
-        strokeColor: "#AF5", //线颜色
-        //path: this.lineArr,
-        // strokeOpacity: 1,     //线透明度
-        strokeWeight: 6, //线宽
-        // strokeStyle: "solid"  //线样式
-      });
-      this.marker.on("moving", function(e) {
-        passedPolyline.setPath(e.passedPath);
-      });
-      this.map.setFitView();
-    },
-    //实时轨迹
-    currentAnimation(val) {
-      this.flag = false;
-      this.speedCount = 1;
-      // this.marker.pauseMove();
-      this.map.remove(this.marker);
-      this.pName = val.person_name;
-      if (this.timer) {
-        clearInterval(this.timer);
-        this.timer = null;
+      var point = [];
+      for (var i = 0; i < this.path.length; i++) {
+        point.push(new BMapGL.Point(this.path[i].lng, this.path[i].lat));
       }
-      (后台的请求).then((data) => {
-        if (data.statusCode == 200) {
-          if (data.result.length > 0) {
-            this.h3tit = "实时人员轨迹";
-            this.lineArr = [];
-            this.firstArr = [];
-            data.result.forEach((item) => {
-              this.lineArr.push([item.lng, item.lat]);
-              this.firstArr.push(data.result[0].lng, data.result[0].lat);
-            });
-            this.initMap();
-            this.startAnimation();
-            if (this.firstArr.length > 0) {
-              this.timer = setInterval(() => {
-                后台的请求.then((data) => {
-                  if (data.statusCode == 200) {
-                    this.lineArr = [];
-                    data.result.forEach((item) => {
-                      this.lineArr.push([item.lng, item.lat]);
-                    });
-                    this.initroad();
-                    this.startAnimation();
-                  }
-                });
-              }, 2000);
-            }
-          } else {
-            this.$message({
-              message: "该人员没有安全帽实时数据",
-              type: "warning",
-            });
-            this.firstArr = [120.11296645567579, 30.290059843858472];
-            this.map = new AMap.Map("container", {
-              resizeEnable: true,
-              center: this.firstArr,
-              zoom: 20,
-            });
-            this.marker = new AMap.Marker({
-              map: this.map,
-              position: this.firstArr,
-              icon: pic,
-            });
-          }
-        }
+      var pl = new BMapGL.Polyline(point);
+
+      this.maps = map;
+      this.pls = pl;
+      setTimeout(this.start, 3000);
+
+      map.setHeading(64.5);
+      map.setTilt(73);
+    },
+    // 创建个轨迹动画对象，并配置参数
+    start() {
+      var trackAni = new BMapGLLib.TrackAnimation(this.maps, this.pls, {
+        overallView: true,
+        tilt: 30,
+        duration: 20000,
+        delay: 300,
       });
+      trackAni.start();
     },
   },
 };
 </script>
+
+<style lang="css" scoped>
+.container {
+  margin: 30px;
+}
+.text {
+  font-size: 30px;
+  line-height: 46px;
+}
+</style>
