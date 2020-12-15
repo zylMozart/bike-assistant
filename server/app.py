@@ -1,8 +1,20 @@
+import json
+import sys
+import time
+import smbus
 from flask import Flask
 from flask import jsonify
 from flask import request
-import json
+from imusensor.MPU9250 import MPU9250
+address = 0x68
+bus = smbus.SMBus(1)
+imu = MPU9250.MPU9250(bus, address)
+imu.begin()
 
+
+while True:
+
+        time.sleep(0.1)
 app = Flask(__name__)
 
 @app.route('/')
@@ -15,7 +27,12 @@ def location():
 
 @app.route('/posture')
 def posture():
-    return jsonify({"code":0,"msg":"OK" })
+    imu.readSensor()
+    imu.computeOrientation()
+    print ("roll: {0} ; pitch : {1} ; yaw : {2}".format(imu.roll, imu.pitch, imu.yaw))
+    return jsonify({"code":0,"msg":"OK","data":{
+        "roll":imu.roll, "pitch":imu.pitch,"yaw":imu.yaw
+    } })
 
 @app.route('/temperature')
 def temperature():
