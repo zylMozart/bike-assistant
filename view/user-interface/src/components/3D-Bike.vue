@@ -1,5 +1,6 @@
 <template>
-  <model-obj
+<div>
+    <model-obj
   @on-load="onLoad"
     :backgroundAlpha="0"
     :controlsOptions="{
@@ -11,6 +12,15 @@
     mtl="/models/obj/Sepeda Facific Invert.mtl"
     :rotation="rotation"
   ></model-obj>
+  <div>
+    {{rotation.x}}
+    </br>
+    {{rotation.y}}
+    </br>
+    {{rotation.z}}
+  </div>
+</div>
+
 </template>
 <script>
 import { ModelObj } from "vue-3d-model";
@@ -19,7 +29,7 @@ export default {
   data() {
     return {
       enablePan: true,
-      enableZoom: false,
+      enableZoom: true,
       enableRotate: false,
       rotation: {
         x: 0,
@@ -32,8 +42,13 @@ export default {
     onLoad() {
       this.rotate();
     },
-    rotate() {
-      this.rotation.y += 0.01;
+    async rotate() {
+
+      let data=await fetch("http://127.0.0.1:8001/posture");
+      data= await data.json();
+      this.rotation.x = data.data.pitch/3.14;
+      this.rotation.z = -(data.data.roll-90)/2;
+      console.log(this.rotation)
       requestAnimationFrame(this.rotate);
     },
   },

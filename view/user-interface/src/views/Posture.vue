@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <x-d-bike/>
+    <XDBike/>
   </div>
 </template>
 
@@ -9,7 +9,7 @@
 import XDBike from '@/components/3D-Bike.vue'
 
 export default {
-  name: 'Posture',
+  name: 'XDBike',
   components: {
     XDBike
   }

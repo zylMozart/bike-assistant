@@ -1,2 +1,4 @@
-# bike-assistant
+# Bike-Assistant
+
+## Introduction
  
