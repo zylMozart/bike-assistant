@@ -19,6 +19,34 @@
         </v-card-text>
       </v-card>
       <v-card
+        min-width="40%"
+        max-width="80%"
+        height="12rem"
+        class="pa-2"
+        rounded="xl"
+        style="margin:1rem;padding:1rem;"
+        @click="$router.push('/finder')"
+      >
+        <v-card-text class="text-center" style="font-size:4rem">
+          Bike Finder
+        </v-card-text>
+      </v-card>
+
+      <v-card
+        min-width="40%"
+        max-width="80%"
+        height="12rem"
+        class="pa-2"
+        rounded="xl"
+        style="margin:1rem;padding:1rem;"
+        @click="$router.push('/track')"
+      >
+        <v-card-text class="text-center" style="font-size:4rem">
+          Bike Tracker
+        </v-card-text>
+      </v-card>
+
+      <v-card
         v-if="!frontLight"
         @click="switchFrontLight"
         min-width="35%"

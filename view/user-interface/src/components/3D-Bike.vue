@@ -22,7 +22,7 @@ export default {
   data() {
     return {
       enablePan: true,
-      enableZoom: true,
+      enableZoom: false,
       enableRotate: false,
       rotation: {
         x: 0,
