@@ -2,7 +2,7 @@
   <v-app>
     <v-app-bar app color="primary" dark>
       <div class="d-flex align-center">
-        Smart Bike ASSISTANT
+       <v-icon>mdi-bicycle</v-icon> Smart Bike ASSISTANT
       </div>
       <v-spacer></v-spacer>
 

@@ -3,7 +3,7 @@
     <x-d-bike />
     <div class="d-flex pa-2" style="flex-wrap: wrap;justify-content: center;">
       <v-card
-        min-width="40%"
+        min-width="80%"
         height="12rem"
         class="pa-2"
         rounded="xl"
@@ -21,7 +21,7 @@
       <v-card
         v-if="!frontLight"
         @click="switchFrontLight"
-        min-width="40%"
+        min-width="35%"
         height="12rem"
         class="pa-2"
         color="red"
@@ -40,7 +40,7 @@
       <v-card
         v-else
         @click="switchFrontLight"
-        min-width="40%"
+        min-width="35%"
         height="12rem"
         class="pa-2"
         color="red"

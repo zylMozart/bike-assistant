@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import MapView from '../views/MapView.vue'
+import TrackMapView from '../views/TrackMapView.vue'
+import FinderMapView from '../views/BikeFinderView.vue'
 import DashBoard from '../views/DashBoard.vue'
 import PostureView from '../views/PostureView.vue'
 
@@ -18,9 +19,14 @@ const routes = [
     component: PostureView
   },
   {
-    path: '/map',
-    name: 'Map',
-    component: MapView
+    path: '/track',
+    name: 'Track',
+    component: TrackMapView
+  },
+  {
+    path: '/finder',
+    name: 'Finder',
+    component: FinderMapView
   }
 ]
 

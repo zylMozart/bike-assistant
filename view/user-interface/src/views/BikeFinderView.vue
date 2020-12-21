@@ -1,17 +1,16 @@
 <template>
   <div class="home">
-    <XDBike/>
+    <TrackMap/>
   </div>
 </template>
 
 <script>
-// @ is an alias to /src
-import Map from '@/components/Map.vue'
+import TrackMap from '@/components/BikeFinder.vue'
 
 export default {
-  name: 'Map',
+  name: 'TrackMapView',
   components: {
-    Map
+    TrackMap
   }
 }
 </script>
