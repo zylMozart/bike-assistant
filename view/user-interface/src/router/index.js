@@ -1,25 +1,26 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Posture from '../views/Posture.vue'
-import Home from '../views/Home.vue'
+import MapView from '../views/MapView.vue'
+import DashBoard from '../views/DashBoard.vue'
+import PostureView from '../views/PostureView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
     path: '/',
-    name: 'Home',
-    component: Home
-  },
-  {
-    path: '/',
-    name: 'Map',
-    component: Posture
+    name: 'DashBoard',
+    component: DashBoard
   },
   {
     path: '/posture',
     name: 'Posture',
-    component: Home
+    component: PostureView
+  },
+  {
+    path: '/map',
+    name: 'Map',
+    component: MapView
   }
 ]
 

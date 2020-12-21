@@ -1,6 +1,6 @@
 <template>
   <div class="home">
-    <XDBike/>
+    <x-d-bike/>
   </div>
 </template>
 

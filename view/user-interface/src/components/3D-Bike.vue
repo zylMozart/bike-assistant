@@ -1,26 +1,19 @@
 <template>
-<div>
-    <model-obj
-  @on-load="onLoad"
-    :backgroundAlpha="0"
-    :controlsOptions="{
-      enablePan,
-      enableZoom,
-      enableRotate,
-    }"
-    src="/models/obj/Sepeda Facific Invert.obj"
-    mtl="/models/obj/Sepeda Facific Invert.mtl"
-    :rotation="rotation"
-  ></model-obj>
   <div>
-    {{rotation.x}}
-    </br>
-    {{rotation.y}}
-    </br>
-    {{rotation.z}}
+    <model-obj
+      @on-load="onLoad"
+      :backgroundAlpha="0"
+      :controlsOptions="{
+        enablePan,
+        enableZoom,
+        enableRotate,
+      }"
+      src="/models/obj/Sepeda Facific Invert.obj"
+      mtl="/models/obj/Sepeda Facific Invert.mtl"
+      :rotation="rotation"
+      :scale="scale"
+    ></model-obj>
   </div>
-</div>
-
 </template>
 <script>
 import { ModelObj } from "vue-3d-model";
@@ -36,6 +29,9 @@ export default {
         y: 0,
         z: 0,
       },
+      scale:{
+        x: 3, y: 3, z: 3 
+      }
     };
   },
   methods: {
@@ -43,12 +39,11 @@ export default {
       this.rotate();
     },
     async rotate() {
-
-      let data=await fetch("http://127.0.0.1:8001/posture");
-      data= await data.json();
-      this.rotation.x = data.data.pitch/3.14;
-      this.rotation.z = -(data.data.roll-90)/2;
-      console.log(this.rotation)
+      let data = await fetch("http://127.0.0.1:8001/posture");
+      data = await data.json();
+      this.rotation.x = data.data.pitch / 3.14;
+      this.rotation.z = -(data.data.roll - 90) / 2;
+      console.log(this.rotation);
       requestAnimationFrame(this.rotate);
     },
   },

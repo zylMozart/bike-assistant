@@ -55,10 +55,7 @@ export default {
     ...mapGetters(["name"]),
   },
   methods: {
-    // 创建地图实例,并给设置移动路径
     pathStart() {
-      // GL版命名空间为BMapGL
-      // 按住鼠标右键，修改倾斜角和角度
       var map = new BMapGL.Map("allmap"); // 创建Map实例
       map.centerAndZoom(new BMapGL.Point(121.814224, 31.156484), 17); // 初始化地图,设置中心点坐标和地图级别
       map.enableScrollWheelZoom(true); //开启鼠标滚轮缩放
