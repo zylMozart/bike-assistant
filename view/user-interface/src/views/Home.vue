@@ -1,17 +1,19 @@
 <template>
   <div class="home">
-    <HelloWorld/>
+    <v-card class="mx-auto" max-width="344">
+      <x-d-bike></x-d-bike>
+    </v-card>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/3D-Bike.vue'
+import XDBike from "@/components/3D-Bike.vue";
 
 export default {
-  name: 'Home',
+  name: "Posture",
   components: {
-    HelloWorld
-  }
-}
+    XDBike,
+  },
+};
 </script>
