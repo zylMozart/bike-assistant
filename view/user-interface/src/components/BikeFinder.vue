@@ -1,7 +1,7 @@
 <template>
   <div class="patrol_area">
     <div id="allmap" style="height:100vh;margin-top:5px;"></div>
-    <v-btn @click="$router.push('../')" class="back-btn">Back</v-btn>
+    <v-btn fab @click="$router.back()" class="back-btn">Back</v-btn>
   </div>
 </template>
 
@@ -73,6 +73,7 @@ export default {
   position: absolute;
   bottom: 0;
   z-index: 10;
+  left: 1rem;
 }
 #allmap {
   position: absolute;

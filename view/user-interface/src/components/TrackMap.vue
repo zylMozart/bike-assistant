@@ -25,7 +25,7 @@ export default {
       this.maps.centerAndZoom(new BMapGL.Point(120.814224, 30.156484), 17);
       this.maps.enableScrollWheelZoom(true);
 
-      let p = await this.$store.dispatch("getGeo");
+      let p = await this.$store.dispatch("updateGeo");
       this.pl = new BMapGL.Polyline([
         new BMapGL.Point(p.latitude, p.longitude),
         new BMapGL.Point(p.latitude, p.longitude),
@@ -42,7 +42,7 @@ export default {
       this.timer = setInterval(this.updatePotion, 1000);
     },
     async updatePotion() {
-      let p = await this.$store.dispatch("getGeo");
+      let p = await this.$store.dispatch("updateGeo");
       let list = this.pl.getPath();
       const point=new BMapGL.Point(p.latitude, p.longitude);
       list.push(point);

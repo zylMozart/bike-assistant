@@ -1,11 +1,13 @@
 import json
 import sys
 from gps import *
+import RPi.GPIO as GPIO
 import time
 import smbus
 from flask import Flask
 from flask import jsonify
 from flask import request
+from flask_cors import *
 import threading
 from imutils.video import VideoStream
 from flask import Response
@@ -40,8 +42,10 @@ address = 0x68
 bus = smbus.SMBus(1)
 imu = MPU9250.MPU9250(bus, address)
 imu.begin()
-
+GPIO.setmode(GPIO.BOARD)
+GPIO.setup(11, GPIO.OUT)
 app = Flask(__name__)
+CORS(app, supports_credentials=True)  # 设置跨域
 
 @app.route('/')
 def index():
@@ -76,12 +80,24 @@ def play_sound():
 def stop_sound():
     return jsonify({"code":0,"msg":"OK" })
 
-@app.route('/light/get')
+@app.route('/light/down')
 def get_light():
+    GPIO.output(11, GPIO.LOW)
     return jsonify({"code":0,"msg":"OK" })
 
-@app.route('/light/set')
+@app.route('/light/up')
 def set_light():
+    GPIO.output(11, GPIO.HIGH)
+    return jsonify({"code":0,"msg":"OK" })
+
+@app.route('/light2/down')
+def get_light2():
+    GPIO.output(11, GPIO.LOW)
+    return jsonify({"code":0,"msg":"OK" })
+
+@app.route('/light2/up')
+def set_light2():
+    GPIO.output(11, GPIO.HIGH)
     return jsonify({"code":0,"msg":"OK" })
 
 @app.route("/video_feed")
@@ -116,4 +132,4 @@ def generate():
 			bytearray(encodedImage) + b'\r\n')
 
 if __name__ == '__main__':
-    app.run(port=8001)
+    app.run(port=8003)
